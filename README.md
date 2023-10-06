@@ -1,70 +1,70 @@
-# OS-EX.6-IMPLEMENTATION-OF-INTER-PROCESS-COMMUNICATION-USING-PIPE
+# Library-Management
 
-## AIM:
+### AIM:
 
-Write C programs to illustrate IPC using pipes mechanisms
+To study the problem statement, SRS document and draw all the UML diagrams of a Library Management System.
 
-## ALGORITHM: IPC using pipes
+### PROBLEM STATEMENT:
 
-Create a child process usingfork()
+To create Library Management System software that will meet the needs of the applicant
+and help them to registering and buy the book for the Library, modification in database and
+cancellation for the registered project.
 
-Create a simple pipe with C, we make use of the pipe() systemcall.
+### OVERALL DESCRIPTION:
 
-Create two file descriptor fd[0] is set up for reading, fd[1] isset up forwriting
+The Library Management System is an integrated system that has four modules as part of
+it. 
 
-Close the read end of parent process using close() and perform writeoperation
+#### Registration for Membership:
 
-Close the write end of child process and performreading
+In this module, the user can select the books to register for the library,Modification in the book
+database, cancelling the books.
 
-Display thetext.
+#### Book details:
 
-## PROGRAM:
-```
-#include <stdio.h>
+In this module the user can search for the books by giving bookie in the project and selecting
+the semester for the book.
 
-int main()
+## Maintaining Book Details:
 
-{
+In this module the administrator can change the data’s like the semester, address, books can be
+done.
 
-int fd[2],child; char a[20];
+#### Cancellation for the Book:
 
-printf("\n Enter the string:");
+In this module the user can cancel their name which is registered for the Book.
 
-scanf("%s",a);
+### SOFTWARE REQUIRMENTS:
 
-pipe(fd);
+Star UML
 
-child=fork();
+### UML Diagrams:
 
-if(!child)
+## USE CASE DIAGRAM:
 
-{
+![Screenshot 2023-09-15 143503](https://github.com/22008686/Library-Management/assets/118916413/f6ceb51f-0b85-49d8-ad52-4d46c6ffec90)
 
-close(fd[0]);
+## CLASS DIAGRAM:
 
-write(fd[1],a,5); wait(0);
+![WhatsApp Image 2023-09-15 at 1 27 44 PM (1)](https://github.com/22008686/Library-Management/assets/118916413/7e5c0377-6909-43cc-b175-3c41b158ec02)
 
-}
+## ACTIVITY DIAGRAM:
 
-else
+![activity 1](https://github.com/22008686/Library-Management/assets/118916413/799aa11d-9a82-41e4-9cd9-eccc38ee9625)
 
-{
+## COMMUNICATION DIGRAM:
 
-close(fd[1]);
-
-read(fd[0],a,5); printf("The string received from pipe is: %s",a);
-
-}
-
-return 0;
-
-}
-
-```
-## OUTPUT:
-
-![Screenshot (121)](https://github.com/JAYAVARTHAN-P/OS-EX.6-IMPLEMENTATION-OF-INTER-PROCESS-COMMUNICATION-USING-PIPE/assets/121369281/55ca7ffc-e720-4a0f-b756-dda1066c1e6c)
+![communicationdiagram](https://github.com/22008686/Library-Management/assets/118916413/e3967753-01ce-4aeb-92eb-7f747adf2c92)
 
 
-## RESULT: 
-Thus, IPC using pipes mechanisms is illustrated using c program successfully
+## SEQUENCE DIAGRAM:
+
+![WhatsApp Image 2023-09-15 at 2 27 23 PM](https://github.com/22008686/Library-Management/assets/118916413/5f36980a-18ed-45fe-8b04-049af9977dd1)
+
+## PACKAGE DIAGRAM:
+
+![package diagram](https://github.com/22008686/Library-Management/assets/118916413/c97b67db-7381-4439-99b8-db584769f303)
+
+### RESULT:
+
+Thus the Library management system project was executed and the output was verified.
