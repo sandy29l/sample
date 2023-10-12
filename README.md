@@ -1,70 +1,112 @@
-# Library-Management
+# EX.7-IMPLEMENTATION-OF-SYSTEM-CALLS-READ-WRITE-FORK-OPEN-CLOSE
 
-### AIM:
+## AIM:
+C program using open, read, write, close , create , fork() system calls.
 
-To study the problem statement, SRS document and draw all the UML diagrams of a Library Management System.
+## THEORY:
+There are 5 basic system calls that Unix provides for file I/O.
 
-### PROBLEM STATEMENT:
+1.create:
+Used to Create a new empty file
 
-To create Library Management System software that will meet the needs of the applicant
-and help them to registering and buy the book for the Library, modification in database and
-cancellation for the registered project.
+Syntax :
+int create(char *filename, mode_t mode)
 
-### OVERALL DESCRIPTION:
+filename :
+Name of the file which you want to create
 
-The Library Management System is an integrated system that has four modules as part of
-it. 
+mode :
+Indicates permissions of new file.
 
-#### Registration for Membership:
+2. open:
+Used to Open the file for reading, writing or both.
 
-In this module, the user can select the books to register for the library,Modification in the book
-database, cancelling the books.
+Syntax:
+int open(char *path, int flags [ , int mode ] );
 
-#### Book details:
+Path :
+Path to file which you want to use
 
-In this module the user can search for the books by giving bookie in the project and selecting
-the semester for the book.
+Flags :
+How you like to use ?
 
-## Maintaining Book Details:
+O_RDONLY: read only, O_WRONLY: write only, O_RDWR: read and write, O_CREAT: create file if it doesn’t exist, O_EXCL: prevent creation if it already exists
 
-In this module the administrator can change the data’s like the semester, address, books can be
-done.
+3. close:
+Tells the operating system you are done with a file descriptor and Close the file which pointed by fd.
 
-#### Cancellation for the Book:
+Syntax:
+int close(int fd); fd :file descriptor
 
-In this module the user can cancel their name which is registered for the Book.
+4. read:
+From the file indicated by the file descriptor fd, the read() function reads cnt bytes of input into the memory area indicated by buf. A successful read() updates the access time for the file.
 
-### SOFTWARE REQUIRMENTS:
+Syntax:
+int read(int fd, char *buf, int size);
 
-Star UML
+fd: file descripter buf: buffer to read data from cnt: length of buffer
 
-### UML Diagrams:
+5. write:
+Writes cnt bytes from buf to the file or socket associated with fd. cnt should not be greater than INT_MAX (defined in the limits.h header file). If cnt is zero, write() simply returns 0 without attempting any other action.
 
-## USE CASE DIAGRAM:
+Syntax:
+int write(int fd, char *buf, int size);
 
-![Screenshot 2023-09-15 143503](https://github.com/22008686/Library-Management/assets/118916413/f6ceb51f-0b85-49d8-ad52-4d46c6ffec90)
+fd: file descripter buf: buffer to write data to cnt: length of buffer
 
-## CLASS DIAGRAM:
+*File descriptor is integer that uniquely identifies an open file of the process.
 
-![WhatsApp Image 2023-09-15 at 1 27 44 PM (1)](https://github.com/22008686/Library-Management/assets/118916413/7e5c0377-6909-43cc-b175-3c41b158ec02)
+## ALGORITHM:
+Start the program.
 
-## ACTIVITY DIAGRAM:
+Open a file for O_RDWR for R/W,O_CREATE for creating a file ,O_TRUNC for truncate a file.
 
-![activity 1](https://github.com/22008686/Library-Management/assets/118916413/799aa11d-9a82-41e4-9cd9-eccc38ee9625)
+Using getchar(), read the character and stored in the string[] array.
 
-## COMMUNICATION DIGRAM:
+The string [] array is write into a file close it.
 
-![communicationdiagram](https://github.com/22008686/Library-Management/assets/118916413/e3967753-01ce-4aeb-92eb-7f747adf2c92)
+Then the first is opened for read only mode and read the characters and displayed it and close the file.
+
+Use Fork().
+
+Stop the program.
+
+## PROGRAM:
+```
+Developed by : JAYAVARTHAN P
+Reg No: 212222100015
+
+#include<sys/stat.h> 
+#include<stdio.h> 
+#include<fcntl.h> 
+#include<sys/types.h> 
+int main() 
+{ 
+int n,i=0; 
+int f1,f2; 
+char c,strin[100]; 
+f1=open("data",O_RDWR|O_CREAT|O_TRUNC); 
+while((c=getchar())!='\n') 
+{ 
+strin[i++]=c; 
+ 
+} 
+strin[i]='\0'; 
+write(f1,strin,i); 
+close(f1); 
+f2=open("data",O_RDONLY); 
+read(f2,strin,0); 
+printf("\n%s\n",strin); 
+close(f2); 
+fork(); 
+return 0; 
+ 
+}
+```
+## OUTPUT:
+![Screenshot 2023-10-05 223200](https://github.com/JAYAVARTHAN-P/EX.7-IMPLEMENTATION-OF-SYSTEM-CALLS-READ-WRITE-FORK-OPEN-CLOSE/assets/121369281/5bb9d1e5-8d35-4f40-a78c-fdf6936a6269)
 
 
-## SEQUENCE DIAGRAM:
+## RESULT:
+Thus, open, read, write, close , create , fork() system calls implemented successfully using c program.
 
-![WhatsApp Image 2023-09-15 at 2 27 23 PM](https://github.com/22008686/Library-Management/assets/118916413/5f36980a-18ed-45fe-8b04-049af9977dd1)
-
-## PACKAGE DIAGRAM:
-
-![package diagram](https://github.com/22008686/Library-Management/assets/118916413/c97b67db-7381-4439-99b8-db584769f303)
-
-### RESULT:
-
-Thus the Library management system project was executed and the output was verified.
