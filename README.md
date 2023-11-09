@@ -1,260 +1,213 @@
-# OS-EX.11-IMPLEMENTATION-OF-DISK-SCHEDULING-ALGORITHMS
-## 1.DISK SCHEDULING-FIRST COME FIRST SERVE
+# OS-EX.12-IMPLEMENTATION-OF-FILE-ALLOCATION-METHODS
+## 1.FILE MANAGEMENT USING SEQUENTIAL ALLOCATION
 ## Aim:
-To write a program for the first come first serve method of disc scheduling.
+To implement file management using sequential list.
 
-## Description:
-Disk scheduling is schedule I/O requests arriving for the disk. It is important because: - Multiple I/O requests may arrive by different processes and only one I/O request can be served at a time by the disk controller.
-## Program
-```
-#include <stdio.h>
-#include <stdlib.h>
-int main() {
-    int RQ[100], i, n, TotalHeadMovement = 0, initial;
-    printf("Enter the number of Requests\n");
-    scanf("%d", &n);
-    printf("Enter the Requests sequence\n");
-    for (i = 0; i < n; i++)
-    {
-        scanf("%d", &RQ[i]);
-    }
-    printf("Enter initial head position\n");
-    scanf("%d", &initial);
-    for (i = 0; i < n; i++)
-    {
-        TotalHeadMovement += abs(RQ[i] - initial);
-        initial = RQ[i];
-    }
-    printf("Total head movement is %d\n", TotalHeadMovement);
-    return 0;
-}
-```
-## Output:
-![image](https://github.com/Afsarjumail/OS-EX.11-IMPLEMENTATION-OF-DISK-SCHEDULING-ALGORITHMS/assets/118343395/70c240f3-71c3-4efe-b6c2-a535b87a39c9)
-## Result:
-Thus the implementation of the program for first come first serve disc scheduling has been successfully executed.
-
-## 2.DISK SCHEDULING-SHORTEST SEEK TIME FIRST
-## Aim:
-To write a program for the first come first serve method of disc scheduling.
-
-## Description:
-Shortest seek time first (SSTF) algorithm selects the disk I/O request which requires the least disk arm movement from its current position regardless of the direction.
+## Algorithm:
+Step 1: Start the program.
+Step 2: Get the number of memory partition and their sizes.
+Step 3: Get the number of processes and values of block size for each process.
+Step 4: First fit algorithm searches all the entire memory block until a hole which is big enough is encountered. It allocates that memory block for the requesting process.
+Step 5: Best-fit algorithm searches the memory blocks for the smallest hole which can be allocated to requesting process and allocates it.
+Step 6: Worst fit algorithm searches the memory blocks for the largest hole and allocates it to the process.
+Step 7: Analyses all the three memory management techniques and display the best algorithm which utilizes the memory resources effectively and efficiently.
+Step 8: Stop the program.
 
 ## Program:
 ```
 #include <stdio.h>
-#include <stdlib.h>
 int main()
 {
-    int RQ[100], i, n, TotalHeadMovement = 0, initial, count = 0;
-    printf("Enter the number of Requests\n");
-    scanf("%d", &n);
-    printf("Enter the Requests sequence\n");
-    for (i = 0; i < n; i++)
+    int f[50], i, st, len, j, c, k, count = 0;
+    for (i = 0; i < 50; i++)
     {
-        scanf("%d", &RQ[i]);
+        f[i] = 0;
     }
-    printf("Enter initial head position\n");
-    scanf("%d", &initial);
-    while (count != n)
+    printf("Files Allocated are:\n");
+x:
+    count = 0;
+    printf("Enter starting block and length of files: ");
+    scanf("%d %d", &st, &len);
+```
+```
+    for (k = st; k < (st + len); k++)
     {
-        int min = 10000;
-        int index;
-        for (i = 0; i < n; i++) 
+        if (f[k] == 0)
+            count++;
+    }
+    if (len == count) 
+    {
+        for (j = st; j < (st + len); j++) 
         {
-            int d = abs(RQ[i] - initial);
-            if (d < min)
+            if (f[j] == 0) 
             {
-                min = d;
-                index = i;
+                f[j] = 1;
+                printf("%d\t%d\n", j, f[j]);
             }
         }
-        TotalHeadMovement += min;
-        initial = RQ[index];
-        RQ[index] = 10000;
-        count++;
-    }
-    printf("Total head movement is %d\n", TotalHeadMovement);
-    return 0;
-}
-```
-## Output:
-![image](https://github.com/Afsarjumail/OS-EX.11-IMPLEMENTATION-OF-DISK-SCHEDULING-ALGORITHMS/assets/118343395/110f01df-8b80-432e-b9ad-57b8e2e84125)
-
-## Result:
-Thus the implementation of the program for shortest seek time first disc scheduling has been successfully executed.
-
-## 3.DISK SCHEDULING-SCAN
-## Aim:
-To write a program for the first come first serve method of disc scheduling.
-
-## Description:
-It works in the way an elevator works, elevator moves in a direction completely till the last floor of that direction and then turns back.
-
-## Program:
-```
-#include <stdio.h>
-#include <stdlib.h>
-int main()
-{
-    int RQ[100], i, j, n, TotalHeadMovement = 0, initial, size, move;
-    printf("Enter the number of Requests\n");
-    scanf("%d", &n);
-    printf("Enter the Requests sequence\n");
-    for (i = 0; i < n; i++)
-    {
-        scanf("%d", &RQ[i]);
-    }
-    printf("Enter initial head position\n");
-    scanf("%d", &initial);
-    printf("Enter total disk size\n");
-    scanf("%d", &size);
-    printf("Enter the head movement direction (1 for high, 0 for low)\n");
-    scanf("%d", &move);
-    for (i = 0; i < n; i++)
-    {
-        for (j = 0; j < n - i - 1; j++) 
+        if (j != (st + len - 1))
         {
-            if(RQ[j] > RQ[j + 1])
-            {
-                int temp = RQ[j];
-                RQ[j] = RQ[j + 1];
-                RQ[j + 1] = temp;
-            }
-        }
-    }
-    int index;
-    for (i = 0; i < n; i++) 
-    {
-        if (initial < RQ[i])
-        {
-            index = i;
-            break;
-        }
-    }
-    if (move == 1)
-    {
-        for (i = index; i < n; i++)
-        {
-            TotalHeadMovement += abs(RQ[i] - initial);
-            initial = RQ[i];
-        }
-        TotalHeadMovement += abs(size - RQ[i - 1] - 1);
-        initial = size - 1;
-        for (i = index - 1; i >= 0; i--)
-        {
-            TotalHeadMovement += abs(RQ[i] - initial);
-            initial = RQ[i];
-        }
-    }
-    else
-    {
-        for (i = index - 1; i >= 0; i--)
-        {
-            TotalHeadMovement += abs(RQ[i] - initial);
-            initial = RQ[i];
-        }
-        TotalHeadMovement += abs(RQ[i + 1] - 0);
-        initial = 0;
-        for (i = index; i < n; i++)
-        {
-            TotalHeadMovement += abs(RQ[i] - initial);
-            initial = RQ[i];
-        }
-    }
-    printf("Total head movement is %d\n", TotalHeadMovement);
-    return 0;
-}
-```
-## Output:
-![image](https://github.com/Afsarjumail/OS-EX.11-IMPLEMENTATION-OF-DISK-SCHEDULING-ALGORITHMS/assets/118343395/df82f3cb-1435-4008-a68c-48c5c519edcc)
-
-
-## Result:
-Thus the implementation of the program for SCAN disc scheduling has been successfully executed.
-
-
-## 4.DISK SCHEDULING-LOOK
-## Aim:
-To write a program for the first come first serve method of disc scheduling.
-
-## Description
-It is similar to the SCAN disk scheduling algorithm except for the difference that the disk arm in spite of going to the end of the disk goes only to the last request to be serviced in front of the head and then reverses its direction from there only. Thus, it prevents the extra delay which occurred due to unnecessary traversal to the end of the disk.
-
-## Program:
-```
-#include <stdio.h>
-#include <stdlib.h>
-int main()
-{
-    int RQ[100], i, j, n, TotalHeadMovement = 0, initial, size, move;
-    printf("Enter the number of Requests\n");
-    scanf("%d", &n);
-    printf("Enter the Requests sequence\n");
-    for (i = 0; i < n; i++)
-    {
-        scanf("%d", &RQ[i]);
-    }
-    printf("Enter initial head position\n");
-    scanf("%d", &initial);
-    printf("Enter total disk size\n");
-    scanf("%d", &size);
-    printf("Enter the head movement direction (1 for high, 0 for low)\n");
-    scanf("%d", &move);
-    for (i = 0; i < n; i++)
-    {
-        for (j = 0; j < n - i - 1; j++) 
-        {
-            if (RQ[j] > RQ[j + 1]) 
-            {
-                int temp = RQ[j];
-                RQ[j] = RQ[j + 1];
-                RQ[j + 1] = temp;
-            }
-        }
-    }
-    int index;
-    for (i = 0; i < n; i++)
-    {
-        if (initial < RQ[i]) 
-        {
-            index = i;
-            break;
-        }
-    }
-    if (move == 1) 
-    {
-        for (i = index; i < n; i++) 
-        {
-            TotalHeadMovement += abs(RQ[i] - initial);
-            initial = RQ[i];
-        }
-        for (i = index - 1; i >= 0; i--) {
-            TotalHeadMovement += abs(RQ[i] - initial);
-            initial = RQ[i];
+            printf("The file is allocated to disk\n");
         }
     } 
     else
     {
-        for (i = index - 1; i >= 0; i--)
-        {
-            TotalHeadMovement += abs(RQ[i] - initial);
-            initial = RQ[i];
-        }
-        for (i = index; i < n; i++)
-        {
-            TotalHeadMovement += abs(RQ[i] - initial);
-            initial = RQ[i];
-        }
+        printf("The file is not allocated\n");
     }
-    printf("Total head movement is %d\n", TotalHeadMovement);
+    printf("Do you want to enter more file (Yes - 1/No - 0): ");
+    scanf("%d", &c);
+    if (c == 1)
+        goto x;
     return 0;
 }
 ```
 ## Output:
-![image](https://github.com/Afsarjumail/OS-EX.11-IMPLEMENTATION-OF-DISK-SCHEDULING-ALGORITHMS/assets/118343395/c44ae3b2-c50e-4b7a-a241-98fbde3a431c)
+![image](https://github.com/Afsarjumail/OS-EX.12-IMPLEMENTATION-OF-FILE-ALLOCATION-METHODS/assets/118343395/c44cad00-25f9-456c-92c0-7487282431e7)
 
 
 ## Result:
-Thus the implementation of the program for LOOK disc scheduling has been successfully executed.
+Thus, file management using sequential list is implemented successfully.
+
+## 2.FILE MANAGEMENT USING INDEXED ALLOCATION
+## Aim:
+To implement file management using Indexed list.
+
+## Program:
+```
+#include <stdio.h>
+#include <stdlib.h>
+int main() {
+    int f[50], index[50], i, n, st, len, j, c, k, ind, count = 0;
+    for (i = 0; i < 50; i++)
+    {
+        f[i] = 0;
+    }
+    printf("Files Allocated are:\n");
+x:
+    printf("Enter the index block: ");
+    scanf("%d", &ind);
+    if (f[ind] != 1)
+    {
+        printf("Enter the number of blocks needed for the index %d on the disk: \n", ind);
+        scanf("%d", &n);
+    } else
+    {
+        printf("%d index is already allocated\n", ind);
+        goto x;
+    }
+```
+```
+y:
+    count = 0;
+    for (i = 0; i < n; i++)
+    {
+        scanf("%d", &index[i]);
+        if (f[index[i]] == 0)
+        {
+            count++;
+        }
+    }
+    if (count == n)
+    {
+        for (j = 0; j < n; j++)
+            f[index[j]] = 1;
+        printf("Allocated\n");
+        printf("File Indexed\n");
+        for (k = 0; k < n; k++)
+        {
+            printf("%d ------ > %d : %d\n", ind, index[k], f[index[k]]);
+        }
+    }
+    else
+    {
+        printf("File in the index is already allocated\n");
+        printf("Enter another file indexed\n");
+        goto y;
+    }
+    printf("Do you want to enter more file (Yes - 1/No - 0): ");
+    scanf("%d", &c);
+    if (c == 1)
+        goto x;
+    else
+        return 0;
+}
+```
+## Output:
+![image](https://github.com/Afsarjumail/OS-EX.12-IMPLEMENTATION-OF-FILE-ALLOCATION-METHODS/assets/118343395/09215dd5-7007-46b5-a6f0-ffe0441e2cf2)
+
+
+## Result:
+Thus, file management using Indexed list is implemented successfully.
+## 3.FILE MANAGEMENT USING LINKED ALLOCATION
+## Aim:
+To implement file management using Linked list.
+
+## Program:
+```
+#include <stdio.h>
+#include <stdlib.h>
+void recursivePart(int pages[]) 
+{
+    int st, len, k, c, j;
+    printf("Enter the index of the starting block and its length: ");
+    scanf("%d %d", &st, &len);
+    k = len;
+    if (pages[st] == 0)
+    {
+        for (j = st; j < (st + k); j++) 
+        {
+            if (pages[j] == 0) 
+            {
+                pages[j] = 1;
+                printf("%d ----- > %d\n", j, pages[j]);
+            }
+            else 
+            {
+                printf("The block %d is already allocated\n", j);
+                k++;
+            }
+        }
+    } 
+    else 
+    {
+        printf("The block %d is already allocated\n", st);
+    }
+    printf("Do you want to enter more files?\n");
+    printf("Enter 1 for Yes, Enter 0 for No: ");
+    scanf("%d", &c);
+    if (c == 1)
+    {
+        recursivePart(pages);
+    }
+    else
+    {
+        return;
+    }
+}
+```
+```
+int main() {
+    int pages[50], p, a;
+    for (int i = 0; i < 50; i++)
+    {
+        pages[i] = 0;
+    }
+    printf("Enter the number of blocks already allocated: ");
+    scanf("%d", &p);
+    printf("Enter the blocks already allocated: ");
+    for (int i = 0; i < p; i++) 
+    {
+        scanf("%d", &a);
+        pages[a] = 1;
+    }
+    recursivePart(pages);
+    getchar();
+    return 0;
+}
+```
+## Output:
+![image](https://github.com/Afsarjumail/OS-EX.12-IMPLEMENTATION-OF-FILE-ALLOCATION-METHODS/assets/118343395/e052d9dc-5d47-4e08-b465-83bc3c4897c8)
+
+
+## Result:
+Thus, file management using Linked list is implemented successfully.
