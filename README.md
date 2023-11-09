@@ -1,116 +1,70 @@
-# OS-EX.8-IMPLEMENTATION-OF-BANKER-S-ALGORITHM
+# OS-EX.9-IMPLEMENTATION-OF-PAGING---MEMORY-MANAGEMENT-
 
 ## AIM:
-To write a C program to implement Bankers Algorithm.
+To write a C program to implement Page Replacement technique using FIFO.
 
 ## ALGORITHM
-1: Get the no of processes.
+Start the program.
 
-2: Get the process numbers.
+Get the number of pages and their sequence from the user
 
-3: Get the no of resources types and instances of it.
+Get the number of available page frames from the user.
 
-4: Get Max demand of each process of n x m matrices.
+In FIFO, on the basics of first in first out, replace the pages respectively, then find number of page faults occurred.
 
-5: Get the n x m matrices the number of resources of each type currently allocated to each process.
+Compare all frames with incoming page-
 
-6: Calculate the n x m of the remaining resource need of each process.
+If the incoming page is already available in page frame, set the match flag to indicate ‘no need of page replacement’.
 
-7: Initialize work as available resource and array of finish to false.
+If the incoming page is not available in all frames, then remove the page which is loaded into the memory long back and give space for new incoming page.
 
-8: Check the Needed resource is lesser than the available resource if not display the System not in safe state and if it is lesser than system in safe state.
+Increment the ‘number of Page faults counter
 
-9: Initialize work as sum of work and allocation, check if array of finish is true go to step 7 again if not go to step 8.
+Print the number of page faults.
 
-10: Check that request can be immediately granted.
+Stop the program.
 
-11: If single request is lesser than or equal to available if true means arrive to new state.
-
-12: Print the sequence if it is in safe state or print not in safe state.
-
-PROGRAM:
+## PROGRAM
 ```
-#include <stdio.h>
+#include<stdio.h>
 int main()
 {
-
-	int n, m, i, j, k;
-	n = 5; // Number of processes
-	m = 3; // 
-	int alloc[5][3] = { { 0, 1, 0 }, // P0 // Allocation Matrix
-						{ 2, 0, 0 }, // P1
-						{ 3, 0, 2 }, // P2
-						{ 2, 1, 1 }, // P3
-						{ 0, 0, 2 } }; // P4
-
-	int max[5][3] = { { 7, 5, 3 }, // P0 // MAX Matrix
-					{ 3, 2, 2 }, // P1
-					{ 9, 0, 2 }, // P2
-					{ 2, 2, 2 }, // P3
-					{ 4, 3, 3 } }; // P4
-
-	int avail[3] = { 3, 3, 2 }; // Available Resources
-
-	int f[n], ans[n], ind = 0;
-	for (k = 0; k < n; k++) {
-		f[k] = 0;
-	}
-	int need[n][m];
-	for (i = 0; i < n; i++) {
-		for (j = 0; j < m; j++)
-			need[i][j] = max[i][j] - alloc[i][j];
-	}
-	int y = 0;
-	for (k = 0; k < 5; k++) {
-		for (i = 0; i < n; i++) {
-			if (f[i] == 0) {
-
-				int flag = 0;
-				for (j = 0; j < m; j++) {
-					if (need[i][j] > avail[j]){
-						flag = 1;
-						break;
-					}
-				}
-
-				if (flag == 0) {
-					ans[ind++] = i;
-					for (y = 0; y < m; y++)
-						avail[y] += alloc[i][y];
-					f[i] = 1;
-				}
-			}
-		}
-	}
-
-	int flag = 1;
-	
-	for(int i=0;i<n;i++)
-	{
-	if(f[i]==0)
-	{
-		flag=0;
-		printf("The following system is not safe");
-		break;
-	}
-	}
-	
-	if(flag==1)
-	{
-	printf("Following is the SAFE Sequence\n");
-	for (i = 0; i < n - 1; i++)
-		printf(" P%d ->", ans[i]);
-	printf(" P%d", ans[n - 1]);
-	}
-	
-
-	return (0);
+int i,j,n,a[50],frame[10],no,k,avail,count=0;
+printf("\n ENTER THE NUMBER OF PAGES:\n");
+scanf("%d",&n);
+printf("\n ENTER THE PAGE NUMBER :\n");
+for(i=1;i<=n;i++)
+scanf("%d",&a[i]);
+printf("\n ENTER THE NUMBER OF FRAMES :");
+scanf("%d",&no);
+for(i=0;i<no;i++)
+frame[i]= -1;
+j=0;
+printf("\tRef string\t Page Frames\n");
+for(i=1;i<=n;i++)
+{
+printf("%d\t\t\t",a[i]);
+avail=0;
+for(k=0;k<no;k++)
+if(frame[k]==a[i])
+avail=1;
+if (avail==0)
+{
+frame[j]=a[i];
+j=(j+1)%no;
+count++;
+for(k=0;k<no;k++)
+printf("%d\t",frame[k]);
+}
+printf("\n");
+}
+printf("\nPage Fault Is %d",count);
+return 0;
 }
 ```
+## OUTPUT
+![image](https://github.com/Afsarjumail/OS-EX.9-IMPLEMENTATION-OF-PAGING---MEMORY-MANAGEMENT-/assets/118343395/33ffef59-ce46-4fe2-96dc-7552d19e2797)
 
-## OUTPUT:
-![image](https://github.com/Afsarjumail/OS-EX.8-IMPLEMENTATION-OF-BANKER-S-ALGORITHM/assets/118343395/c107063d-050f-437c-b25b-96cf2f811ff5)
 
-
-## RESULT:
-Thus, implement Bankers Algorithm to avoid Deadlock is implemented successfully using C program.
+## RESULT
+Thus the implementation of FIFO page replacement is successfully executed.
