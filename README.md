@@ -1,52 +1,116 @@
-# LAB-6-Online-examination-system
+# OS-EX.8-IMPLEMENTATION-OF-BANKER-S-ALGORITHM
 
-### AIM:
+## AIM:
+To write a C program to implement Bankers Algorithm.
 
-To develop the Exam Registration System using Star UML tools.
+## ALGORITHM
+1: Get the no of processes.
 
-### PROBLEM STATEMENT
+2: Get the process numbers.
 
-1. Exam Registration System is used in the effective registration of exams to all of the
-applicants. This system adopts a comprehensive approach to minimize the manual work and
-schedule resources, time in a coherent manner.
+3: Get the no of resources types and instances of it.
 
-2. The core of the system is to get the online registration form (with details such as name,
-address etc.,) filled by the applicant whose details are later verified by the Administrator.
+4: Get Max demand of each process of n x m matrices.
 
-3. Then the applicant needs to pay the examination fees by the interface provided in the
-Exam Registration system. After the end of the due date for submitting the form, the
-information is in turn forwarded to the administrator's view.
+5: Get the n x m matrices the number of resources of each type currently allocated to each process.
 
-4. The applications are then processed based on the information given by the applicant,
-and any forfeiting identified can make the applicant liable to penalty as per the law.
+6: Calculate the n x m of the remaining resource need of each process.
 
-5. The administrator after successful confirmation, initiates the process to generate the
-hall tickets for the applicants. After successful generation of hall tickets, the system delivers
-the hall ticket to the applicants. The applicants can download the hall tickets finally in the end.
+7: Initialize work as available resource and array of finish to false.
 
-### UML DIAGRAMS:
+8: Check the Needed resource is lesser than the available resource if not display the System not in safe state and if it is lesser than system in safe state.
 
-## USECASE DIAGRAM:
+9: Initialize work as sum of work and allocation, check if array of finish is true go to step 7 again if not go to step 8.
 
-![image](https://github.com/22008686/LAB-6-Online-examination-system/assets/118916413/3c694264-9089-4b78-8c41-96b7aa4cd6b6)
+10: Check that request can be immediately granted.
 
-## CLASS DIAGRAM:
+11: If single request is lesser than or equal to available if true means arrive to new state.
 
-![image](https://github.com/22008686/LAB-6-Online-examination-system/assets/118916413/5e8e77bc-23c8-40fe-be0c-396b1274d8f9)
+12: Print the sequence if it is in safe state or print not in safe state.
 
-## SEQUENCE DIAGRAM:
+PROGRAM:
+```
+#include <stdio.h>
+int main()
+{
 
-![image](https://github.com/22008686/LAB-6-Online-examination-system/assets/118916413/ed2e9e5d-a042-4d3d-879f-d51f0bd9fb9a)
+	int n, m, i, j, k;
+	n = 5; // Number of processes
+	m = 3; // 
+	int alloc[5][3] = { { 0, 1, 0 }, // P0 // Allocation Matrix
+						{ 2, 0, 0 }, // P1
+						{ 3, 0, 2 }, // P2
+						{ 2, 1, 1 }, // P3
+						{ 0, 0, 2 } }; // P4
 
-## COLLABRATION DIAGRAM:
+	int max[5][3] = { { 7, 5, 3 }, // P0 // MAX Matrix
+					{ 3, 2, 2 }, // P1
+					{ 9, 0, 2 }, // P2
+					{ 2, 2, 2 }, // P3
+					{ 4, 3, 3 } }; // P4
 
-![image](https://github.com/22008686/LAB-6-Online-examination-system/assets/118916413/2091ee09-df0b-418a-9b42-47c79bf6eb97)
+	int avail[3] = { 3, 3, 2 }; // Available Resources
 
-## ACTIVITY DIAGRAM:
+	int f[n], ans[n], ind = 0;
+	for (k = 0; k < n; k++) {
+		f[k] = 0;
+	}
+	int need[n][m];
+	for (i = 0; i < n; i++) {
+		for (j = 0; j < m; j++)
+			need[i][j] = max[i][j] - alloc[i][j];
+	}
+	int y = 0;
+	for (k = 0; k < 5; k++) {
+		for (i = 0; i < n; i++) {
+			if (f[i] == 0) {
 
-![image](https://github.com/22008686/LAB-6-Online-examination-system/assets/118916413/69ed3937-e646-4f75-8a51-9d8ce0febea1)
+				int flag = 0;
+				for (j = 0; j < m; j++) {
+					if (need[i][j] > avail[j]){
+						flag = 1;
+						break;
+					}
+				}
 
-### RESULT:
+				if (flag == 0) {
+					ans[ind++] = i;
+					for (y = 0; y < m; y++)
+						avail[y] += alloc[i][y];
+					f[i] = 1;
+				}
+			}
+		}
+	}
 
-Thus the project to develop Exam Registration system was developed using Star UML
-Software is done successfully.
+	int flag = 1;
+	
+	for(int i=0;i<n;i++)
+	{
+	if(f[i]==0)
+	{
+		flag=0;
+		printf("The following system is not safe");
+		break;
+	}
+	}
+	
+	if(flag==1)
+	{
+	printf("Following is the SAFE Sequence\n");
+	for (i = 0; i < n - 1; i++)
+		printf(" P%d ->", ans[i]);
+	printf(" P%d", ans[n - 1]);
+	}
+	
+
+	return (0);
+}
+```
+
+## OUTPUT:
+![image](https://github.com/Afsarjumail/OS-EX.8-IMPLEMENTATION-OF-BANKER-S-ALGORITHM/assets/118343395/c107063d-050f-437c-b25b-96cf2f811ff5)
+
+
+## RESULT:
+Thus, implement Bankers Algorithm to avoid Deadlock is implemented successfully using C program.
