@@ -1,506 +1,105 @@
-# Ex09 Event Registration Web Application
-## Date:15.11.25
+<H3>ENTER YOUR NAME : NAVEEN S</H3>
+<H3>ENTER YOUR REGISTER NO. 212222240070</H3>
+<H3>EX. NO.1</H3>
+<H3>DATE</H3>
+<H1 ALIGN =CENTER> Introduction to Kaggle and Data preprocessing</H1>
 
 ## AIM:
-To design, develop and deploy a web application for event registration.
 
-## DESIGN STEPS:
+To perform Data preprocessing in a data set downloaded from Kaggle
 
-### Step 1:
-Create a new frame.
+## EQUIPMENTS REQUIRED:
+Hardware – PCs
+Anaconda – Python 3.7 Installation / Google Colab /Jupiter Notebook
 
-### Step 2:
-Select any one preset size of your choice.
+## RELATED THEORETICAL CONCEPT:
 
-### Step 3:
-Select the shapes you need.
+**Kaggle :**
+Kaggle, a subsidiary of Google LLC, is an online community of data scientists and machine learning practitioners. Kaggle allows users to find and publish data sets, explore and build models in a web-based data-science environment, work with other data scientists and machine learning engineers, and enter competitions to solve data science challenges.
 
-### Step 4:
-Import images as needed.
+**Data Preprocessing:**
 
-### Step 5:
-Create pages based on your need and link them.
+Pre-processing refers to the transformations applied to our data before feeding it to the algorithm. Data Preprocessing is a technique that is used to convert the raw data into a clean data set. In other words, whenever the data is gathered from different sources it is collected in raw format which is not feasible for the analysis.
+Data Preprocessing is the process of making data suitable for use while training a machine learning model. The dataset initially provided for training might not be in a ready-to-use state, for e.g. it might not be formatted properly, or may contain missing or null values.Solving all these problems using various methods is called Data Preprocessing, using a properly processed dataset while training will not only make life easier for you but also increase the efficiency and accuracy of your model.
 
-### Step 6:
+**Need of Data Preprocessing :**
 
-Validate the HTML and CSS code.
+For achieving better results from the applied model in Machine Learning projects the format of the data has to be in a proper manner. Some specified Machine Learning model needs information in a specified format, for example, Random Forest algorithm does not support null values, therefore to execute random forest algorithm null values have to be managed from the original raw data set.
+Another aspect is that the data set should be formatted in such a way that more than one Machine Learning and Deep Learning algorithm are executed in one data set, and best out of them is chosen.
 
-### Step 6:
 
-Publish the website in the given URL.
+## ALGORITHM:
+STEP 1:Importing the libraries<BR>
+STEP 2:Importing the dataset<BR>
+STEP 3:Taking care of missing data<BR>
+STEP 4:Encoding categorical data<BR>
+STEP 5:Normalizing the data<BR>
+STEP 6:Splitting the data into test and train<BR>
 
-## DESIGN TOOL:
-## Home page
+
+##  PROGRAM:
+```py
+import pandas as pd
+import io
+from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import MinMaxScaler
+from sklearn.model_selection import train_test_split
+
+data = pd.read_csv("Churn_Modelling.csv")
+data
+data.head()
+
+X=data.iloc[:,:-1].values
+X
+
+y=data.iloc[:,-1].values
+y
+
+data.isnull().sum()
+
+data.duplicated()
+
+data.describe()
+
+data = data.drop(['Surname', 'Geography','Gender'], axis=1)
+data.head()
+
+scaler=MinMaxScaler()
+df1=pd.DataFrame(scaler.fit_transform(data))
+print(df1)
+
+X_train ,X_test ,y_train,y_test=train_test_split(X,y,test_size=0.2)
+
+X_train
+
+X_test
+
+print("Lenght of X_test ",len(X_test))
+
+
 ```
-/* home page */
-
-position: relative;
-width: 360px;
-height: 640px;
-
-background: #F0A9ED;
-
-
-/* SAVEETHA ENGINEERING COLLEGE */
-
-position: absolute;
-width: 294px;
-height: 39px;
-left: 66px;
-top: 15px;
-
-font-family: 'Inter';
-font-style: normal;
-font-weight: 400;
-font-size: 16px;
-line-height: 19px;
-
-color: #ECEEF9;
-
-
-
-/* Line 1 */
-
-position: absolute;
-width: 0px;
-height: 0px;
-left: 64px;
-top: 23.5px;
-
-border: 1px solid #000000;
-transform: rotate(180deg);
-
-
-/* Line 2 */
-
-position: absolute;
-width: 271px;
-height: 0px;
-left: 65px;
-top: 36px;
-
-border: 1px solid #000000;
-transform: rotate(-0.21deg);
-
-
-/* logo 1 */
-
-position: absolute;
-width: 105px;
-height: 101px;
-left: 132px;
-top: 86px;
-
-background: url(logo.png);
-
-
-/* logo 2 */
-
-position: absolute;
-width: 105px;
-height: 101px;
-left: 132px;
-top: 86px;
-
-background: url(logo.png);
-
-
-/* logo 3 */
-
-position: absolute;
-width: 105px;
-height: 101px;
-left: 132px;
-top: 86px;
-
-background: url(logo.png);
-
-
-/* AFFILIATED TO ANNA UNIVERSITY */
-
-position: absolute;
-width: 296px;
-height: 50px;
-left: 64px;
-top: 227px;
-
-font-family: 'Inter';
-font-style: normal;
-font-weight: 400;
-font-size: 16px;
-line-height: 19px;
-
-color: #FAF4F4;
-
-
-
-/* Line 3 */
-
-position: absolute;
-width: 267.01px;
-height: 0px;
-left: 61px;
-top: 250px;
-
-border: 1px solid #000000;
-box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-transform: rotate(0.43deg);
-
-
-/* NIRF Ranked Autonomous Insititution */
-
-position: absolute;
-width: 277px;
-height: 40px;
-left: 101px;
-top: 284px;
-
-font-family: 'Inter';
-font-style: normal;
-font-weight: 400;
-font-size: 16px;
-line-height: 19px;
-
-color: #F5F5F5;
-
-
-
-/* Line 4 */
-
-position: absolute;
-width: 199.02px;
-height: 0px;
-left: 100px;
-top: 303px;
-
-border: 1px solid #000000;
-transform: rotate(0.86deg);
-
-
-/* Line 5 */
-
-position: absolute;
-width: 77.03px;
-height: 0px;
-left: 103px;
-top: 320px;
-
-border: 1px solid #000000;
-transform: rotate(1.49deg);
-
-
-/* Rectangle 1 */
-
-position: absolute;
-width: 255px;
-height: 42px;
-left: 64px;
-top: 397px;
-
-background: #F96EE3;
-
-
-/* Rectangle 2 */
-
-position: absolute;
-width: 263px;
-height: 43px;
-left: 65px;
-top: 474px;
-
-background: #F0A9ED;
-
-
-/* LOGIN */
-
-position: absolute;
-width: 219px;
-height: 24px;
-left: 151px;
-top: 406px;
-
-font-family: 'Inter';
-font-style: normal;
-font-weight: 400;
-font-size: 20px;
-line-height: 24px;
-
-color: #000000;
-
-
-
-/* Line 7 */
-
-position: absolute;
-width: 360px;
-height: 0px;
-left: 0px;
-top: 65px;
-
-border: 1px solid #000000;
-transform: rotate(-0.16deg);
-```
-## Login page
-```
-/* Login page */
-
-position: relative;
-width: 360px;
-height: 640px;
-
-background: #A9E3F0;
-
-
-/* SAVEETHA ENGINEERING COLLEGE */
-
-position: absolute;
-width: 332px;
-height: 26px;
-left: 21px;
-top: 12px;
-
-font-family: 'Inter';
-font-style: normal;
-font-weight: 400;
-font-size: 16px;
-line-height: 19px;
-
-color: #ECEEF9;
-
-
-
-/* Line 6 */
-
-position: absolute;
-width: 270.02px;
-height: 0px;
-left: 21px;
-top: 38px;
-
-border: 1px solid #000000;
-box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-transform: rotate(-0.64deg);
-
-
-/* logo 4 */
-
-position: absolute;
-width: 109px;
-height: 103px;
-left: 125px;
-top: 90px;
-
-background: url(logo.png);
-filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
-
-
-/* Line 8 */
-
-position: absolute;
-width: 360px;
-height: 0px;
-left: 0px;
-top: 65px;
-
-border: 1px solid #000000;
-box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-transform: rotate(0.16deg);
-
-
-/* Rectangle 3 */
-
-position: absolute;
-width: 288px;
-height: 49px;
-left: 41px;
-top: 311px;
-
-background: #73D5F4;
-box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-
-
-/* Rectangle 4 */
-
-position: absolute;
-width: 298px;
-height: 53px;
-left: 38px;
-top: 437px;
-
-background: #73D5F4;
-box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-
-
-/* Rectangle 5 */
-
-position: absolute;
-width: 165px;
-height: 55px;
-left: 109px;
-top: 536px;
-
-background: #73D5F4;
-box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-
-
-/* Username */
-
-position: absolute;
-width: 191px;
-height: 24px;
-left: 43px;
-top: 270px;
-
-font-family: 'Inter';
-font-style: normal;
-font-weight: 400;
-font-size: 16px;
-line-height: 19px;
-
-color: #000000;
-
-text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-
-
-/* Password */
-
-position: absolute;
-width: 169px;
-height: 18px;
-left: 42px;
-top: 409px;
-
-font-family: 'Inter';
-font-style: normal;
-font-weight: 400;
-font-size: 16px;
-line-height: 19px;
-
-color: #000000;
-
-text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-
-
-/* SUBMIT */
-
-position: absolute;
-width: 116px;
-height: 26px;
-left: 153px;
-top: 551px;
-
-font-family: 'Inter';
-font-style: normal;
-font-weight: 400;
-font-size: 24px;
-line-height: 29px;
-
-color: #000000;
-
-text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-```
-## SEC page
-```
-/* SEC page */
-
-position: relative;
-width: 360px;
-height: 640px;
-
-background: #BFE48F;
-box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-
-
-/* SAVEETHA ENGINEERING COLLEGE */
-
-position: absolute;
-width: 311px;
-height: 34px;
-left: 49px;
-top: 17px;
-
-font-family: 'Inter';
-font-style: normal;
-font-weight: 400;
-font-size: 16px;
-line-height: 19px;
-
-color: #ECEEF9;
-
-
-
-/* Line 9 */
-
-position: absolute;
-width: 277.01px;
-height: 0px;
-left: 49px;
-top: 44px;
-
-border: 1px solid #000000;
-transform: rotate(-0.41deg);
-
-
-/* Line 10 */
-
-position: absolute;
-width: 360px;
-height: 0px;
-left: 0px;
-top: 67px;
-
-border: 1px solid #000000;
-
-
-/* logo 5 */
-
-position: absolute;
-width: 120px;
-height: 110px;
-left: 123px;
-top: 90px;
-
-background: url(logo.png);
-
-
-/* DEPARTMENTS */
-
-position: absolute;
-width: 232px;
-height: 36px;
-left: 94px;
-top: 239px;
-
-font-family: 'Inter';
-font-style: normal;
-font-weight: 400;
-font-size: 24px;
-line-height: 29px;
-
-color: #000000;
-
-
-
-/* AIML AIDS CSE EEE MECH */
-
-position: absolute;
-width: 109px;
-height: 40px;
-left: 134px;
-top: 292px;
-
-font-family: 'Inter';
-font-style: normal;
-font-weight: 400;
-font-size: 24px;
-line-height: 29px;
-
-color: #000000;
-```
-
 ## OUTPUT:
-![Alt text](image-2.png)
-![Alt text](image-3.png)
-![Alt text](image-4.png)
+### Dataset:
+![data](https://github.com/Naveensrinivasan07/Ex-1-NN/assets/119475891/3266a858-7026-457d-b074-8857923d7a07)
+### X Values:
+![x_values](https://github.com/Naveensrinivasan07/Ex-1-NN/assets/119475891/aade21d7-c701-4b77-bc89-2c2b3525c10a)
+### Y Values:
+![y_values](https://github.com/Naveensrinivasan07/Ex-1-NN/assets/119475891/d0814948-069a-4ef2-a673-f17b8d890bd3)
+### Null Values:
+![null_values](https://github.com/Naveensrinivasan07/Ex-1-NN/assets/119475891/6d015d44-ee3a-45c1-ba58-9eef5c14b64b)
+### Duplicated Values:
+![duplicated_values](https://github.com/Naveensrinivasan07/Ex-1-NN/assets/119475891/45952918-fb79-43a1-bb18-da592508ace2)
+### Description:
+![describe](https://github.com/Naveensrinivasan07/Ex-1-NN/assets/119475891/49a40544-613f-42c9-8f30-21247564bfa1)
+### Normalized Dataset:
+![normalized](https://github.com/Naveensrinivasan07/Ex-1-NN/assets/119475891/b52b7460-7491-462f-9e3e-153379875151)
+### Training Data:
+![training ](https://github.com/Naveensrinivasan07/Ex-1-NN/assets/119475891/92024909-59f8-45b1-b69b-03e5eed238af)
+### Testing Data:
+![test](https://github.com/Naveensrinivasan07/Ex-1-NN/assets/119475891/17c1c314-f771-4787-8743-320698017e55)
+
 ## RESULT:
-The program to design, develop and deploy a web application for event registration is completed successfully.
+Thus, Implementation of Data Preprocessing is done in python  using a data set downloaded from Kaggle.
+
+
+
